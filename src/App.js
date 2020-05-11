@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import TodoList from './Todo/TodoList';
 import Context from './context';
 import Loader from './loader';
+import NavBar from './Navigation/NavBar';
 import Modal from './Modal/Modal';
 
 const AddTodo = React.lazy(() => import('./Todo/AddTodo'));
@@ -46,19 +47,37 @@ function App() {
 
   return (
     <Context.Provider value={{removeTodo}}>
-      <div className="wrapper">
-        <h1>ReactJS Todo List</h1>
-        <Modal />
-        {loading && <Loader />}
-        {todos.length ? (<TodoList todos={todos} onToggle={toggleTodo}/>) 
-                      : loading ? 
-                            null : 
-                            (<h5>No todos left for today, good job!</h5>)
-                      }
-        <React.Suspense fallback={<p>Loading...</p>}>
-          <AddTodo  onCreate={addTodo}/>
-        </React.Suspense>
+      <div className="row">
+        <div class="col">
+          <NavBar />
+        </div>
       </div>
+      
+      {loading && 
+        <div className="row">
+          <div class="col">
+            <Loader />
+          </div>
+        </div>
+      }
+
+
+      <div className="row">
+        <div class="col">
+          {todos.length ? (<TodoList todos={todos} onToggle={toggleTodo}/>) 
+                        : loading ? null : (<Modal />)}
+        </div>
+      </div>
+
+      <div className="row">
+        <div class="col">
+          <React.Suspense fallback={<p>Loading...</p>}>
+            <AddTodo  onCreate={addTodo}/>
+          </React.Suspense>
+        </div>
+      </div>
+      
+
     </Context.Provider>
   );
 }
