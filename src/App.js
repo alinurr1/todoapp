@@ -4,6 +4,8 @@ import Context from './context';
 import Loader from './loader';
 import NavBar from './Navigation/NavBar';
 import Modal from './Modal/Modal';
+import Jumbotron from './Jumbotron/Jumbotron';
+import Footer from './Footer/Footer';
 
 const AddTodo = React.lazy(() => import('./Todo/AddTodo'));
 
@@ -47,36 +49,34 @@ function App() {
 
   return (
     <Context.Provider value={{removeTodo}}>
+
+      <NavBar />
+
       <div className="row">
         <div class="col">
-          <NavBar />
+          <Jumbotron />
+          <hr></hr>
         </div>
       </div>
       
-      {loading && 
-        <div className="row">
-          <div class="col">
-            <Loader />
-          </div>
-        </div>
-      }
-
-
       <div className="row">
         <div class="col">
+          {loading && <Loader />}
           {todos.length ? (<TodoList todos={todos} onToggle={toggleTodo}/>) 
                         : loading ? null : (<Modal />)}
-        </div>
-      </div>
-
-      <div className="row">
-        <div class="col">
           <React.Suspense fallback={<p>Loading...</p>}>
             <AddTodo  onCreate={addTodo}/>
           </React.Suspense>
         </div>
       </div>
       
+      <div className="row">
+        <div class="col">
+          <br></br>
+          <hr></hr>
+          <Footer />
+        </div>
+      </div>
 
     </Context.Provider>
   );
