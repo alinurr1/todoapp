@@ -6,11 +6,13 @@ import NavBar from './Navigation/NavBar';
 import Modal from './Modal/Modal';
 import Jumbotron from './Jumbotron/Jumbotron';
 import Footer from './Footer/Footer';
+import TypeTodo from './Todo/TypeTodo';
 
 const AddTodo = React.lazy(() => import('./Todo/AddTodo'));
 
 function App() {
   const [todos, setTodos] = React.useState([]);
+  const [type, setType] = React.useState("ALL");
   const [loading, setLoading] = React.useState(true);
 
   function toggleTodo(id){
@@ -18,6 +20,10 @@ function App() {
       if(todo.id === id) todo.completed = !todo.completed;
       return todo;
     }));
+  }
+
+  function changeType(type){
+    setType(type);
   }
 
   useEffect(() => {
@@ -62,7 +68,8 @@ function App() {
       <div className="row">
         <div class="col">
           {loading && <Loader />}
-          {todos.length ? (<TodoList todos={todos} onToggle={toggleTodo}/>) 
+          {todos.length ? (<><TodoList todos={todos} displayType={type} onToggle={toggleTodo}/>
+                          <TypeTodo changeType={changeType}/></>) 
                         : loading ? null : (<Modal />)}
           <React.Suspense fallback={<p>Loading...</p>}>
             <AddTodo  onCreate={addTodo}/>
