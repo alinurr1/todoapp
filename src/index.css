@@ -65,3 +65,14 @@
   }
 }
 
+.card-img-top {
+  width: 70%;
+  height: 60%;
+  margin: auto;
+  object-fit: cover;
+}
+
+
+
+
+
